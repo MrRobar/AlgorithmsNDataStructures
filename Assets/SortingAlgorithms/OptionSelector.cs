@@ -2,41 +2,43 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionSelector : MonoBehaviour
 {
-
     [SerializeField] private TMP_Dropdown _dropdown;
-    [SerializeField] private AlgorithmType _algorithmType;
+    [SerializeField] private Button _startButton;
+    [SerializeField] private DelegatesSetup _setup;
 
-    private void Awake()
+    public event Action<string> OnStartButtonClicked;
+
+    private void OnEnable()
     {
-       FillDropDown();
+        _setup.OnDictionarySet += FillDropDownOptions;
+        _startButton.onClick.AddListener(OnStartButtonPressed);
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log(_dropdown.options[_dropdown.value].text);
-        }
+        _setup.OnDictionarySet -= FillDropDownOptions;
+        _startButton.onClick.RemoveListener(OnStartButtonPressed);
     }
 
-    private void FillDropDown()
+    private void OnStartButtonPressed()
+    {
+        OnStartButtonClicked?.Invoke(_dropdown.options[_dropdown.value].text);
+    }
+
+    private void FillDropDownOptions()
     {
         List<TMP_Dropdown.OptionData> datas = new List<TMP_Dropdown.OptionData>();
-        var values = Enum.GetValues(typeof(AlgorithmType));
-        foreach (var variant in values)
+
+        foreach (var option in _setup.Options)
         {
-            datas.Add(new TMP_Dropdown.OptionData(variant.ToString()));
+            TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData(option.Key);
+            datas.Add(data);
         }
+
         _dropdown.AddOptions(datas);
     }
-}
-
-public enum AlgorithmType
-{
-    BubbleSort,
-    SelectionSort,
-    InsertionSort
 }

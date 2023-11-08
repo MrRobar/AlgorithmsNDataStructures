@@ -34,20 +34,17 @@ public class Randomizer : MonoBehaviour
         }
     }
 
-    [ContextMenu("Selection Sort")]
-    private void SelectionSort()
+    public void SelectionSort()
     {
         StartCoroutine(SelectionSortCoroutine());
     }
 
-    [ContextMenu("Insertion Sort")]
-    private void InsertionSort()
+    public void InsertionSort()
     {
         StartCoroutine(InsertionSortCoroutine());
     }
 
-    [ContextMenu("Bubble Sort")]
-    private void BubbleSort()
+    public void BubbleSort()
     {
         StartCoroutine(BubbleSortCoroutine());
     }
