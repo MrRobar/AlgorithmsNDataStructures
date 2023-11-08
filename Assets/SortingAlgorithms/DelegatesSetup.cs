@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DelegatesSetup : MonoBehaviour
 {
-    [SerializeField] private Randomizer _randomizer;
+    [SerializeField] private Algorithms _algorithms;
     [SerializeField] private OptionSelector _optionSelector;
 
     public delegate void SortingAlgorithmDelegate();
@@ -26,17 +26,17 @@ public class DelegatesSetup : MonoBehaviour
 
     private void OnEnable()
     {
-        _bubbleSort += _randomizer.BubbleSort;
-        _insertionSort += _randomizer.InsertionSort;
-        _selectionSort += _randomizer.SelectionSort;
+        _bubbleSort += _algorithms.BubbleSort;
+        _insertionSort += _algorithms.InsertionSort;
+        _selectionSort += _algorithms.SelectionSort;
         _optionSelector.OnStartButtonClicked += DispatchDelegate;
     }
 
     private void OnDisable()
     {
-        _bubbleSort -= _randomizer.BubbleSort;
-        _insertionSort -= _randomizer.InsertionSort;
-        _selectionSort -= _randomizer.SelectionSort;
+        _bubbleSort -= _algorithms.BubbleSort;
+        _insertionSort -= _algorithms.InsertionSort;
+        _selectionSort -= _algorithms.SelectionSort;
         _optionSelector.OnStartButtonClicked -= DispatchDelegate;
     }
 
